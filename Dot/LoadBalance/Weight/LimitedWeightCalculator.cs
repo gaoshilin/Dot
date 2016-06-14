@@ -23,7 +23,7 @@ namespace Dot.LoadBalance.Weight
             totalWeight = Math.Min(_limit, totalWeight);
             var weights = weightPrecents.Select(precent => Math.Max(1, (int)(precent * totalWeight))).ToList();
             var gcd = weights.GetGreatestCommonDivisor();
-            if (gcd != 1)
+            if (gcd > 1)
                 weights = weights.Select(weight => weight / gcd).ToList();
 
             return weights;
