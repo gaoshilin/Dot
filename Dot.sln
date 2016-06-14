@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dot.Sample", "Dot.Sample\Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dot.Test", "Dot.Test\Dot.Test.csproj", "{FADBA528-9D48-4FC9-98C9-EF9223D5BBDE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dot.ZooKeeper", "Dot.ZooKeeper", "{F90BA57B-CDE2-4898-87E4-A60CD3F6826E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dot.ZooKeeper", "Dot.ZooKeeper\Dot.ZooKeeper.csproj", "{355D8699-88A4-4222-8888-72AECA7E578C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,15 @@ Global
 		{FADBA528-9D48-4FC9-98C9-EF9223D5BBDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FADBA528-9D48-4FC9-98C9-EF9223D5BBDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FADBA528-9D48-4FC9-98C9-EF9223D5BBDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355D8699-88A4-4222-8888-72AECA7E578C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355D8699-88A4-4222-8888-72AECA7E578C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355D8699-88A4-4222-8888-72AECA7E578C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355D8699-88A4-4222-8888-72AECA7E578C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{355D8699-88A4-4222-8888-72AECA7E578C} = {F90BA57B-CDE2-4898-87E4-A60CD3F6826E}
 	EndGlobalSection
 EndGlobal
