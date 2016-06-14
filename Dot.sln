@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dot.ZooKeeper", "Dot.ZooKee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dot.ZooKeeper", "Dot.ZooKeeper\Dot.ZooKeeper.csproj", "{355D8699-88A4-4222-8888-72AECA7E578C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dot.ZooKeeper.Sample", "Dot.ZooKeeper.Sample\Dot.ZooKeeper.Sample.csproj", "{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +37,16 @@ Global
 		{355D8699-88A4-4222-8888-72AECA7E578C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{355D8699-88A4-4222-8888-72AECA7E578C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{355D8699-88A4-4222-8888-72AECA7E578C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{355D8699-88A4-4222-8888-72AECA7E578C} = {F90BA57B-CDE2-4898-87E4-A60CD3F6826E}
+		{EB8D9963-11B0-49EC-B16C-6E8ED20E84C4} = {F90BA57B-CDE2-4898-87E4-A60CD3F6826E}
 	EndGlobalSection
 EndGlobal
