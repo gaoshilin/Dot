@@ -16,9 +16,11 @@ namespace Dot.ServiceModel
 
         public ServiceMetadata()
         {
+            this.Weight = 1;
         }
 
         public ServiceMetadata(string rootPath, string address, string binding, bool checkOnStart = true)
+            : this()
         {
             this.Address = address;
             this.Binding = binding;
@@ -29,6 +31,7 @@ namespace Dot.ServiceModel
         }
 
         public ServiceMetadata(Type contractType, string rootPath, EndpointAddress address, Binding binding, bool checkOnStart = true)
+            : this()
         {
             this.Address = address.Uri.AbsoluteUri;
             this.Binding = string.Format("{0}, {1}", binding.GetType().FullName, binding.GetType().Assembly.FullName);
