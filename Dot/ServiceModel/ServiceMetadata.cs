@@ -12,6 +12,7 @@ namespace Dot.ServiceModel
         public string FullPath { get; set; }
         public string Path { get; set; }
         public bool CheckOnStart { get; set; }
+        public int Weight { get; set; }
 
         public ServiceMetadata()
         {

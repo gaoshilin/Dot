@@ -23,6 +23,7 @@ namespace Dot.Dubbo.Rpc
         public ServiceInvokerBase(IRegistery registery, string groupPath, ILoadBalance<ServiceMetadata> loadBalance)
         {
             _serviceIdentity = typeof(TService).Name;
+            _loadBalance = loadBalance;
             _groupPath = groupPath;
 
             _listener = new NotifyListener();
