@@ -28,7 +28,7 @@ namespace Dot.Dubbo.Demo.Support.Contract
 
         public Calculate()
         {
-            var weightCalculator = new ServiceMetadataWeightCalculator();
+            var weightCalculator = new ServiceMetadataWeightCalculator(30);
             var loadBalance = new RoundRobinLoadBalance<ServiceMetadata>(weightCalculator);
             var registery = new ZooKeeperRegistery(ZooKeeperClient.Instance);
             _unaryInvoker = new UnaryServiceInvoker(registery, "/dotdubbo/unary/providers", loadBalance);

@@ -63,7 +63,7 @@ namespace Dot.Dubbo.Demo
 
         static void Main(string[] args)
         {
-            var weightCalculator = new ServiceMetadataWeightCalculator();
+            var weightCalculator = new ServiceMetadataWeightCalculator(30);
             var loadBalance = new RoundRobinLoadBalance<ServiceMetadata>(weightCalculator);
 
             // 创建注册中心
