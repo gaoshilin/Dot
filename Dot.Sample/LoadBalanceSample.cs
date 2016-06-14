@@ -23,34 +23,33 @@ namespace Dot.Sample
             var roundRobin = new RoundRobinLoadBalance<Person>(calculator);
             var consistentHash = new ConsistentHashLoadBalance<Person>(calculator);
 
+            Console.WriteLine("--- Random load balance for equal people ---");
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(random.Select(people));
-            Console.WriteLine("------------------");
 
+            Console.WriteLine("--- Random load balance for weight people ---");
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(random.Select(weightPeople));
-            Console.WriteLine("------------------");
 
+            Console.WriteLine("--- RoundRobin load balance for equal people ---");
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(roundRobin.Select(people, "person"));
-            Console.WriteLine("------------------");
 
+            Console.WriteLine("--- RoundRobin load balance for weight people ---");
             for (int i = 1; i <= 20; i++)
                 Console.WriteLine(roundRobin.Select(weightPeople, "weightPerson"));
-            Console.WriteLine("------------------");
 
+            Console.WriteLine("--- ConsistentHash load balance for equal people ---");
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(consistentHash.Select(people, "person" + i % 2));
-            Console.WriteLine("------------------");
 
+            Console.WriteLine("--- ConsistentHash load balance for weight people ---");
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(consistentHash.Select(weightPeople, "weightPeople" + i % 2));
-            Console.WriteLine("------------------");
 
-
-            weightPeople = new List<int> { 100, 200, 800, 1200 }.Select(weight => new Person { Id = weight, Weight = weight }).ToList();
+            Console.WriteLine("--- RoundRobin load balance with limited weight calculator for weight people ---");
+            weightPeople = new List<int> { 3, 6, 24, 36 }.Select(weight => new Person { Id = weight, Weight = weight }).ToList();
             roundRobin = new RoundRobinLoadBalance<Person>(limitedCalculator);
-
             for (int i = 1; i <= 50; i++)
                 Console.WriteLine(roundRobin.Select(weightPeople, "weightPerson"));
             Console.WriteLine("------------------");
