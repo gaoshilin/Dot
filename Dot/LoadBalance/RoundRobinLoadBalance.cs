@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Dot.Extension;
+using Dot.LoadBalance.Weight;
 using Dot.Threading.Atomic;
 
 namespace Dot.LoadBalance

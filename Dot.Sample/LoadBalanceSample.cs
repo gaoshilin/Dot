@@ -15,11 +15,13 @@ namespace Dot.Sample
 
             var people = Enumerable.Range(1, 4).Select(id => new Person { Id = id, Weight = 1 }).ToList();
             var weightPeople = Enumerable.Range(1, 4).Select(weight => new Person { Id = weight, Weight = weight }).ToList();
-            var weightCalculator = new PersonWeightCalculator();
 
-            var random = new RandomLoadBalance<Person>(weightCalculator);
-            var roundRobin = new RoundRobinLoadBalance<Person>(weightCalculator);
-            var consistentHash = new ConsistentHashLoadBalance<Person>(weightCalculator);
+            var calculator = new PersonWeightCalculator();
+            var limitedCalculator = new PersonLimitedWeightCalculator(30);
+
+            var random = new RandomLoadBalance<Person>(calculator);
+            var roundRobin = new RoundRobinLoadBalance<Person>(calculator);
+            var consistentHash = new ConsistentHashLoadBalance<Person>(calculator);
 
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(random.Select(people));
@@ -43,6 +45,14 @@ namespace Dot.Sample
 
             for (int i = 1; i <= 10; i++)
                 Console.WriteLine(consistentHash.Select(weightPeople, "weightPeople" + i % 2));
+            Console.WriteLine("------------------");
+
+
+            weightPeople = new List<int> { 100, 200, 800, 1200 }.Select(weight => new Person { Id = weight, Weight = weight }).ToList();
+            roundRobin = new RoundRobinLoadBalance<Person>(limitedCalculator);
+
+            for (int i = 1; i <= 50; i++)
+                Console.WriteLine(roundRobin.Select(weightPeople, "weightPerson"));
             Console.WriteLine("------------------");
         }
     }

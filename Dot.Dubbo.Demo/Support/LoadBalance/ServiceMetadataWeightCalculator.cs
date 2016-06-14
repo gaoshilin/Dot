@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dot.LoadBalance;
+﻿using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
 
 namespace Dot.Dubbo.Demo.Support.LoadBalance

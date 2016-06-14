@@ -50,13 +50,14 @@
     <Compile Include="LoadBalance\ConsistentHashLoadBalance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoadBalance\EmptyWeightCalculator.cs" />
+    <Compile Include="LoadBalance\Weight\EmptyWeightCalculator.cs" />
     <Compile Include="LoadBalance\ILoadBalance.cs" />
-    <Compile Include="LoadBalance\IWeightCalculator.cs" />
+    <Compile Include="LoadBalance\Weight\IWeightCalculator.cs" />
     <Compile Include="LoadBalance\LoadBalanceBase.cs" />
     <Compile Include="LoadBalance\RandomLoadBalance.cs" />
     <Compile Include="LoadBalance\RoundRobinLoadBalance.cs" />
-    <Compile Include="LoadBalance\WeightCalculatorBase.cs" />
+    <Compile Include="LoadBalance\Weight\LimitedWeightCalculator.cs" />
+    <Compile Include="LoadBalance\Weight\WeightCalculatorBase.cs" />
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceModel\ServiceMetadata.cs" />

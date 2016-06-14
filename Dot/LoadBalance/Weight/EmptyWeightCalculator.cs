@@ -1,4 +1,4 @@
-﻿namespace Dot.LoadBalance
+﻿namespace Dot.LoadBalance.Weight
 {
     public class EmptyWeightCalculator<T> : WeightCalculatorBase<T>
     {

@@ -45,6 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\Person.cs" />
+    <Compile Include="Support\PersonLimitedWeightCalculator.cs" />
     <Compile Include="Support\PersonWeightCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

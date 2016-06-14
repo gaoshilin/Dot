@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using Dot.Hash;
-using Dot.Extension;
+using Dot.LoadBalance.Weight;
 
 namespace Dot.LoadBalance
 {

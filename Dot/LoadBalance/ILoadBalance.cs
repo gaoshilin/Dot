@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dot.LoadBalance.Weight;
 
 namespace Dot.LoadBalance
 {

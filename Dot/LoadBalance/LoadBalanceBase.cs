@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dot.Extension;
+using Dot.LoadBalance.Weight;
 
 namespace Dot.LoadBalance
 {
@@ -29,9 +29,9 @@ namespace Dot.LoadBalance
             else
                 return this.DoSelectWeight(items, key);
         }
-        protected virtual bool HasSameWeight(List<T> items)
+        protected bool HasSameWeight(List<T> items)
         {
-            return items.Select(item => WeightCalculator.Calculate(item)).AllEqual();
+            return WeightCalculator.Calculate(items).AllEqual();
         }
 
         /// <summary>
@@ -43,8 +43,10 @@ namespace Dot.LoadBalance
         /// </summary>
         protected virtual T DoSelectWeight(List<T> weightItems, string key)
         {
-            var weights = weightItems.ToDictionary(item => item, item => WeightCalculator.Calculate(item));
-            var equalItems = weightItems.SelectRepeat(item => item, item => weights[item]).ToList();
+            var weights = WeightCalculator.Calculate(weightItems);
+            var indexes = Enumerable.Range(0, weightItems.Count);
+            var equalItems = indexes.SelectRepeat(i => weightItems.ElementAt(i), i => weights.ElementAt(i)).ToList();
+
             return this.DoSelectEqual(equalItems, key);
         }
     }

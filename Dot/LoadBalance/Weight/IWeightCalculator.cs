@@ -1,4 +1,6 @@
-﻿namespace Dot.LoadBalance
+﻿using System.Collections.Generic;
+
+namespace Dot.LoadBalance.Weight
 {
     /// <summary>
     /// 权重计算器
@@ -12,5 +14,8 @@
         /// 1. 必须保证权重的最小值为1
         /// </summary>
         int Calculate(T item);
+
+
+        List<int> Calculate(List<T> items);
     }
 }
