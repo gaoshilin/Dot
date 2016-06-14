@@ -17,7 +17,7 @@ namespace Dot.Sample
             var weightPeople = Enumerable.Range(1, 4).Select(weight => new Person { Id = weight, Weight = weight }).ToList();
 
             var calculator = new PersonWeightCalculator();
-            var limitedCalculator = new PersonLimitedWeightCalculator(30);
+            var limitedCalculator = new PersonLimitedWeightCalculator(10);
 
             var random = new RandomLoadBalance<Person>(calculator);
             var roundRobin = new RoundRobinLoadBalance<Person>(calculator);

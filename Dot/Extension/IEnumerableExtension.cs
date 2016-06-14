@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Dot.Util;
 
 namespace Dot.Extension
 {
@@ -72,6 +73,11 @@ namespace Dot.Extension
             }
 
             return result;
+        }
+
+        public static int GetGreatestCommonDivisor(this IEnumerable<int> numbers)
+        {
+            return numbers.Aggregate(IntegerUtil.GetGreatestCommonDivisor);
         }
     }
 }

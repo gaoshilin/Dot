@@ -68,6 +68,7 @@
     <Compile Include="Threading\Atomic\AtomicEnum.cs" />
     <Compile Include="Threading\Atomic\AtomicInteger.cs" />
     <Compile Include="Threading\Atomic\AtomicReference.cs" />
+    <Compile Include="Util\IntegerUtil.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

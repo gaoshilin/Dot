@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dot.Extension;
 
 namespace Dot.Sample
 {
@@ -11,7 +12,6 @@ namespace Dot.Sample
         static void Main(string[] args)
         {
             RunLoadBalanceSample_SingleThread();
-
             Console.Read();
         }
     }
