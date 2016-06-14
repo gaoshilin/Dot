@@ -11,7 +11,9 @@ namespace Dot.Sample
     {
         static void Main(string[] args)
         {
-            RunLoadBalanceSample_SingleThread();
+            RunRandomLoadBalance();
+            RunRoundRobinLoadBalance();
+            //RunLoadBalanceSample_SingleThread();
             Console.Read();
         }
     }

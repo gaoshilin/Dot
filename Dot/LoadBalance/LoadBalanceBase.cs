@@ -1,49 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dot.Extension;
 using Dot.LoadBalance.Weight;
 
 namespace Dot.LoadBalance
 {
-    public abstract class LoadBalanceBase<T> : ILoadBalance<T>
+    public abstract class LoadBalanceBase : ILoadBalance
     {
-        public IWeightCalculator<T> WeightCalculator { get; protected set; }
-
-        public LoadBalanceBase(IWeightCalculator<T> weightCalculator)
+        public T Select<T>(IWeightCalculator<T> calculator, List<T> items, string key = "")
         {
-            this.WeightCalculator = weightCalculator;
-        }
-
-        public T Select(List<T> items, string key = null)
-        {
-            if (items.Any() == false)
-                return default(T);
+            if (calculator == null)
+                throw new ArgumentNullException("calculator", "calculator can not be null.");
+            if (items == null || !items.Any())
+                throw new ArgumentNullException("items", "items can not be null or empty.");
             if (items.Count == 1)
                 return items.ElementAt(0);
-            return this.DoSelect(items, key);
+
+            return this.DoSelect(calculator, items, key);
         }
-        protected virtual T DoSelect(List<T> items, string key)
+
+        protected virtual T DoSelect<T>(IWeightCalculator<T> calculator, List<T> items, string key)
         {
-            if (this.HasSameWeight(items))
+            var weights = calculator.Calculate(items);
+            if (weights.AllEqual())
                 return this.DoSelectEqual(items, key);
             else
-                return this.DoSelectWeight(items, key);
-        }
-        protected bool HasSameWeight(List<T> items)
-        {
-            return WeightCalculator.Calculate(items).AllEqual();
+                return this.DoSelectWeight(items, key, weights);
         }
 
         /// <summary>
         /// 均等负载
         /// </summary>
-        protected abstract T DoSelectEqual(List<T> equalItems, string key);
+        protected abstract T DoSelectEqual<T>(List<T> equalItems, string key);
+
         /// <summary>
         /// 加权负载
         /// </summary>
-        protected virtual T DoSelectWeight(List<T> weightItems, string key)
+        protected virtual T DoSelectWeight<T>(List<T> weightItems, string key, List<int> weights)
         {
-            var weights = WeightCalculator.Calculate(weightItems);
+            if (weights.Count != weightItems.Count)
+                throw new ArgumentException(string.Format("weights.Count[{0}] not equal weightItems.Count[{1}]", weights.Count, weightItems.Count), "items");
+
             var indexes = Enumerable.Range(0, weightItems.Count);
             var equalItems = indexes.SelectRepeat(i => weightItems.ElementAt(i), i => weights.ElementAt(i)).ToList();
 

@@ -5,16 +5,11 @@ using Dot.LoadBalance.Weight;
 
 namespace Dot.LoadBalance
 {
-    public class RandomLoadBalance<T> : LoadBalanceBase<T>
+    public class RandomLoadBalance : LoadBalanceBase
     {
         private Random _random = new Random();
 
-        public RandomLoadBalance(IWeightCalculator<T> weightCalculator)
-            : base(weightCalculator)
-        {
-        }
-
-        protected override T DoSelectEqual(List<T> equalItems, string key)
+        protected override T DoSelectEqual<T>(List<T> equalItems, string key)
         {
             var index = _random.Next(equalItems.Count);
             return equalItems.ElementAt(index); 
