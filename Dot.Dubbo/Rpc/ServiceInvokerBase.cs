@@ -6,6 +6,7 @@ using System.ServiceModel.Channels;
 using System.Threading;
 using Dot.Dubbo.Registery;
 using Dot.LoadBalance;
+using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
 using Dot.Threading.Atomic;
 
@@ -18,12 +19,14 @@ namespace Dot.Dubbo.Rpc
         protected string _groupPath;
         protected NotifyListener _listener;
         protected List<ServiceMetadata> _metadatas;
-        protected ILoadBalance<ServiceMetadata> _loadBalance;
+        protected ILoadBalance _loadBalance;
+        protected IWeightCalculator<ServiceMetadata> _weightCalculator;
 
-        public ServiceInvokerBase(IRegistery registery, string groupPath, ILoadBalance<ServiceMetadata> loadBalance)
+        public ServiceInvokerBase(IRegistery registery, string groupPath, ILoadBalance loadBalance, IWeightCalculator<ServiceMetadata> weightCalculator)
         {
             _serviceIdentity = typeof(TService).Name;
             _loadBalance = loadBalance;
+            _weightCalculator = weightCalculator;
             _groupPath = groupPath;
 
             _listener = new NotifyListener();
@@ -35,7 +38,7 @@ namespace Dot.Dubbo.Rpc
 
         protected virtual ServiceProxy<TService> Open()
         {
-            var meta = _loadBalance.Select(_metadatas, _serviceIdentity);
+            var meta = _loadBalance.Select<ServiceMetadata>(_weightCalculator, _metadatas, _serviceIdentity);
             if (meta == null)
                 throw new ServiceMetadataNotFoundException(typeof(TService));
 

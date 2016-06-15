@@ -5,6 +5,7 @@ using Dot.Dubbo.Registery;
 using Dot.Dubbo.Registery.ZooKeeper;
 using Dot.Dubbo.Rpc;
 using Dot.LoadBalance;
+using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
 using Dot.ZooKeeper;
 
@@ -27,8 +28,8 @@ namespace Dot.Dubbo.Demo.Support.Contract
 
     public class UnaryServiceInvoker : ServiceInvokerBase<IUnary>, IUnary
     {
-        public UnaryServiceInvoker(IRegistery registery, string groupPath, ILoadBalance<ServiceMetadata> loadBalance)
-            : base(registery, groupPath, loadBalance)
+        public UnaryServiceInvoker(IRegistery registery, string groupPath, ILoadBalance loadBalance, IWeightCalculator<ServiceMetadata> weightCalculator)
+            : base(registery, groupPath, loadBalance, weightCalculator)
         {
         }
 

@@ -64,7 +64,7 @@ namespace Dot.Dubbo.Demo
         static void Main(string[] args)
         {
             var weightCalculator = new ServiceMetadataWeightCalculator(30);
-            var loadBalance = new RoundRobinLoadBalance<ServiceMetadata>(weightCalculator);
+            var loadBalance = new RoundRobinLoadBalance();
 
             // 创建注册中心
             var registery = new ZooKeeperRegistery(ZooKeeperClient.Instance);
@@ -75,7 +75,7 @@ namespace Dot.Dubbo.Demo
                       .ForEach(meta => registery.Register(meta, true), 1000);
 
             // 调用 UnaryService
-            var unaryInvoker = new UnaryServiceInvoker(registery, UNARY_SERVICE_PROVIDER_PATH, loadBalance);
+            var unaryInvoker = new UnaryServiceInvoker(registery, UNARY_SERVICE_PROVIDER_PATH, loadBalance, weightCalculator);
             for (int i = -1; i >= -10; i--)
                 Console.WriteLine("unaryInvoker.Negate({0}) = {1}", i, unaryInvoker.Negate(i));
             Console.WriteLine("------------------");
@@ -87,7 +87,7 @@ namespace Dot.Dubbo.Demo
                       .ForEach(meta => registery.Register(meta, true), 1000);
 
             // 调用 CalcService
-            var calcInvoker = new CalculateServiceInvoker(registery, CALC_SERVICE_PROVIDER_PATH, loadBalance);
+            var calcInvoker = new CalculateServiceInvoker(registery, CALC_SERVICE_PROVIDER_PATH, loadBalance, weightCalculator);
             for (int i = 1; i <= 10; i++)
             {
                 calcInvoker.Multicast(i);

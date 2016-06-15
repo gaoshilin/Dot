@@ -7,6 +7,7 @@ using Dot.Dubbo.Registery;
 using Dot.Dubbo.Registery.ZooKeeper;
 using Dot.Dubbo.Rpc;
 using Dot.LoadBalance;
+using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
 using Dot.ZooKeeper;
 
@@ -29,9 +30,9 @@ namespace Dot.Dubbo.Demo.Support.Contract
         public Calculate()
         {
             var weightCalculator = new ServiceMetadataWeightCalculator(30);
-            var loadBalance = new RoundRobinLoadBalance<ServiceMetadata>(weightCalculator);
+            var loadBalance = new RoundRobinLoadBalance();
             var registery = new ZooKeeperRegistery(ZooKeeperClient.Instance);
-            _unaryInvoker = new UnaryServiceInvoker(registery, "/dotdubbo/unary/providers", loadBalance);
+            _unaryInvoker = new UnaryServiceInvoker(registery, "/dotdubbo/unary/providers", loadBalance, weightCalculator);
         }
 
         public double Add(double x, double y)
@@ -47,8 +48,8 @@ namespace Dot.Dubbo.Demo.Support.Contract
 
     public class CalculateServiceInvoker : ServiceInvokerBase<ICalculate>, ICalculate
     {
-        public CalculateServiceInvoker(IRegistery registery, string groupPath, ILoadBalance<ServiceMetadata> loadBalance)
-            : base(registery, groupPath, loadBalance)
+        public CalculateServiceInvoker(IRegistery registery, string groupPath, ILoadBalance loadBalance, IWeightCalculator<ServiceMetadata> weightCalculator)
+            : base(registery, groupPath, loadBalance, weightCalculator)
         {
         }
 
