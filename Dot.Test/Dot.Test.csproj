@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Extension\IEnumerableExtensionTest.cs" />
     <Compile Include="Threading\Atomic\AtomicBooleanTest.cs" />
     <Compile Include="Threading\Atomic\AtomicEnumTest.cs" />
     <Compile Include="Threading\Atomic\AtomicIntegerTest.cs" />

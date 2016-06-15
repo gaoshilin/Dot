@@ -26,36 +26,90 @@ namespace Dot.Extension
 
         public static IEnumerable<T> Left<T>(this IEnumerable<T> items, int count)
         {
-            if (items == null) throw new ArgumentNullException("items", "items == null");
-            if (count <= 0) throw new ArgumentException("length less or equal 0.", "length");
+            if (items == null) 
+                throw new ArgumentNullException("items", "items can not be null.");
+            if (count <= 0) 
+                throw new ArgumentException("count must be greater than 1.", "count");
 
-            if (count > items.Count())
-                count = items.Count();
-
+            count = Math.Min(count, items.Count());
             for (int i = 0; i < count; i++)
                 yield return items.ElementAt(i);
         }
 
         public static IEnumerable<T> Between<T>(this IEnumerable<T> items, int begin, int end)
         {
-            begin = Math.Max(0, begin);
-            var length = Math.Min(begin + end, items.Count());
-            for (int i = begin; i < length; i++)
-                yield return items.ElementAt(i);
+            if (items == null)
+                throw new ArgumentNullException("items", "items can not be null.");
+            if (begin < 0)
+                throw new ArgumentException("begin must be greater or equal than 0.", "begin");
+            if (end < begin)
+                throw new ArgumentException("end must be greater or equal than begin", "end");
+
+            var count = Math.Min((end - begin + 1), (items.Count() - begin));
+            return Enumerable.Range(begin, count).Select(i => items.ElementAt(i));
         }
 
-        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> items, int chunkCount)
+        public static IEnumerable<List<T>> Split<T>(this IEnumerable<T> items, int chunkCount, IEnumerableSplitStrategy strategy = IEnumerableSplitStrategy.None)
         {
-            var chunkSize = items.Count() / chunkCount;
-            if (items.Count() % chunkCount != 0)
-                chunkSize += 1;
+            switch (strategy)
+            {
+                case IEnumerableSplitStrategy.MaximalAverage:
+                    return items.SplitMaximalAverage(chunkCount);
+                case IEnumerableSplitStrategy.None:
+                default:
+                    return items.SplitDefault(chunkCount);
+            }
+        }
 
+        /// <summary>
+        /// 将枚举数拆分成指定数量的列表，采用最大平均化的策略
+        /// </summary>
+        private static IEnumerable<List<T>> SplitMaximalAverage<T>(this IEnumerable<T> items, int chunkCount)
+        {
+            var totalCount = items.Count();
+            var chunkSize = totalCount / chunkCount;
+            var remainder = totalCount % chunkCount;
+            var begin = 0;
+            var end = 0;
+
+            var result = new List<List<T>>();
             for (int i = 0; i < chunkCount; i++)
             {
-                var begin = i * chunkSize;
-                var count = Math.Min(chunkSize, items.Count() - begin);
-                yield return items.Between(begin, count);
+                begin = i * chunkSize;
+                end = begin + chunkSize - 1;
+                result.Add(items.Between(begin, end).ToList());
             }
+
+            for (int i = 0; i < remainder; i++)
+            {
+                result.ElementAt(i).Add(items.ElementAt(i + end + 1));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 将枚举数拆分成指定数量的列表，采用将余数添加到尾列表的策略
+        /// </summary>
+        private static IEnumerable<List<T>> SplitDefault<T>(this IEnumerable<T> items, int chunkCount)
+        {
+            var totalCount = items.Count();
+            var chunkSize = totalCount / chunkCount;
+            var remainder = totalCount % chunkCount;
+            var begin = 0;
+            var end = 0;
+
+            var result = new List<List<T>>();
+            for (int i = 0; i < chunkCount; i++)
+            {
+                begin = i * chunkSize;
+                end = begin + chunkSize - 1;
+                if (i == chunkCount - 1)
+                    end += remainder;
+                result.Add(items.Between(begin, end).ToList());
+            }
+
+            return result;
         }
 
         public static bool TryRemove<T>(this List<T> items, T item)
@@ -97,5 +151,11 @@ namespace Dot.Extension
         {
             return numbers.Aggregate(IntegerUtil.GetGreatestCommonDivisor);
         }
+    }
+
+    public enum IEnumerableSplitStrategy
+    {
+        None,
+        MaximalAverage
     }
 }
