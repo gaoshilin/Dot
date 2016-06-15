@@ -49,7 +49,7 @@ namespace Dot.Extension
             return Enumerable.Range(begin, count).Select(i => items.ElementAt(i));
         }
 
-        public static IEnumerable<List<T>> Split<T>(this IEnumerable<T> items, int chunkCount, IEnumerableSplitStrategy strategy = IEnumerableSplitStrategy.None)
+        public static List<List<T>> Split<T>(this IEnumerable<T> items, int chunkCount, IEnumerableSplitStrategy strategy = IEnumerableSplitStrategy.None)
         {
             switch (strategy)
             {
@@ -64,7 +64,7 @@ namespace Dot.Extension
         /// <summary>
         /// 将枚举数拆分成指定数量的列表，采用最大平均化的策略
         /// </summary>
-        private static IEnumerable<List<T>> SplitMaximalAverage<T>(this IEnumerable<T> items, int chunkCount)
+        private static List<List<T>> SplitMaximalAverage<T>(this IEnumerable<T> items, int chunkCount)
         {
             var totalCount = items.Count();
             var chunkSize = totalCount / chunkCount;
@@ -91,7 +91,7 @@ namespace Dot.Extension
         /// <summary>
         /// 将枚举数拆分成指定数量的列表，采用将余数添加到尾列表的策略
         /// </summary>
-        private static IEnumerable<List<T>> SplitDefault<T>(this IEnumerable<T> items, int chunkCount)
+        private static List<List<T>> SplitDefault<T>(this IEnumerable<T> items, int chunkCount)
         {
             var totalCount = items.Count();
             var chunkSize = totalCount / chunkCount;
