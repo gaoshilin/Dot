@@ -36,6 +36,28 @@ namespace Dot.Extension
                 yield return items.ElementAt(i);
         }
 
+        public static IEnumerable<T> Between<T>(this IEnumerable<T> items, int begin, int end)
+        {
+            begin = Math.Max(0, begin);
+            var length = Math.Min(begin + end, items.Count());
+            for (int i = begin; i < length; i++)
+                yield return items.ElementAt(i);
+        }
+
+        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> items, int chunkCount)
+        {
+            var chunkSize = items.Count() / chunkCount;
+            if (items.Count() % chunkCount != 0)
+                chunkSize += 1;
+
+            for (int i = 0; i < chunkCount; i++)
+            {
+                var begin = i * chunkSize;
+                var count = Math.Min(chunkSize, items.Count() - begin);
+                yield return items.Between(begin, count);
+            }
+        }
+
         public static bool TryRemove<T>(this List<T> items, T item)
         {
             try
@@ -48,16 +70,12 @@ namespace Dot.Extension
             }
         }
 
-        /// <summary>
-        /// 乱序
-        /// </summary>
         public static IEnumerable<T> Disorder<T>(this IEnumerable<T> items)
         {
             return items.OrderBy(item => Guid.NewGuid());
         }
 
-        public static bool AllEqual<T>(this IEnumerable<T> items)
-            where T : IComparable<T>
+        public static bool AllEqual<T>(this IEnumerable<T> items) where T : IComparable<T>
         {
             return items.Min().CompareTo(items.Max()) == 0;
         }
