@@ -24,6 +24,9 @@ namespace Dot.Extension
             }
         }
 
+        /// <summary>
+        /// 获取枚举数左侧的元素
+        /// </summary>
         public static IEnumerable<T> Left<T>(this IEnumerable<T> items, int count)
         {
             if (items == null) 
@@ -36,6 +39,9 @@ namespace Dot.Extension
                 yield return items.ElementAt(i);
         }
 
+        /// <summary>
+        /// 获取枚举数指定下标范围内的元素
+        /// </summary>
         public static IEnumerable<T> Between<T>(this IEnumerable<T> items, int begin, int end)
         {
             if (items == null)
@@ -49,6 +55,9 @@ namespace Dot.Extension
             return Enumerable.Range(begin, count).Select(i => items.ElementAt(i));
         }
 
+        /// <summary>
+        /// 将枚举数拆分成指定数量的列表
+        /// </summary>
         public static List<List<T>> Split<T>(this IEnumerable<T> items, int chunkCount, IEnumerableSplitStrategy strategy = IEnumerableSplitStrategy.None)
         {
             switch (strategy)
@@ -112,11 +121,17 @@ namespace Dot.Extension
             return result;
         }
 
+        /// <summary>
+        /// 新生成一个乱序枚举数
+        /// </summary>
         public static IEnumerable<T> Disorder<T>(this IEnumerable<T> items)
         {
             return items.OrderBy(item => Guid.NewGuid());
         }
 
+        /// <summary>
+        /// 判断枚举数中的所有元素是否都相等
+        /// </summary>
         public static bool AllEqual<T>(this IEnumerable<T> items) where T : IComparable<T>
         {
             return items.Min().CompareTo(items.Max()) == 0;
@@ -135,6 +150,9 @@ namespace Dot.Extension
             return result;
         }
 
+        /// <summary>
+        /// 计算所有数字的最大公约数
+        /// </summary>
         public static int GetGreatestCommonDivisor(this IEnumerable<int> numbers)
         {
             return numbers.Aggregate(IntegerUtil.GetGreatestCommonDivisor);
