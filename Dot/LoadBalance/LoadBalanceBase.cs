@@ -40,7 +40,7 @@ namespace Dot.LoadBalance
         protected virtual T DoSelectWeight<T>(List<T> weightItems, string key, List<int> weights)
         {
             if (weights.Count != weightItems.Count)
-                throw new ArgumentException(string.Format("weights.Count[{0}] not equal weightItems.Count[{1}]", weights.Count, weightItems.Count), "items");
+                throw new ArgumentException(string.Format("count of weights[{0}] must be equal count of weightItems[{1}]", weights.Count, weightItems.Count), "weights");
 
             var indexes = Enumerable.Range(0, weightItems.Count);
             var equalItems = indexes.SelectRepeat(i => weightItems.ElementAt(i), i => weights.ElementAt(i)).ToList();
