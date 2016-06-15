@@ -20,7 +20,7 @@ namespace Dot.Test.Threading.Atomic
         }
 
         [TestMethod]
-        public void AtomicInteger_Set_Test()
+        public void AtomicInteger_Set_ThreadSafe_Test()
         {
             var integer = new AtomicInteger(0);
             Enumerable.Range(1, 50).Select(key =>

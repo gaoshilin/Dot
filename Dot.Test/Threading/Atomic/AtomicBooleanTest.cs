@@ -20,7 +20,7 @@ namespace Dot.Test.Threading.Atomic
         }
 
         [TestMethod]
-        public void AtomicBoolean_Set_Test()
+        public void AtomicBoolean_Set_ThreadSafe_Test()
         {
             var boolean = new AtomicBoolean(false);
             Enumerable.Range(1, 50).Select(key =>
