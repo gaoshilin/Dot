@@ -13,6 +13,7 @@ namespace Dot.Sample
         {
             RunRandomLoadBalance();
             RunRoundRobinLoadBalance();
+            RunConsistenHashLoadBalance();
             //RunLoadBalanceSample_SingleThread();
             Console.Read();
         }
