@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Dot.Threading.Atomic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dot.Test
+namespace Dot.Test.Threading.Atomic
 {
     [TestClass]
     public class AtomicBooleanTest

@@ -50,9 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AtomicBooleanTest.cs" />
-    <Compile Include="AtomicEnumTest.cs" />
-    <Compile Include="AtomicIntegerTest.cs" />
+    <Compile Include="Threading\Atomic\AtomicBooleanTest.cs" />
+    <Compile Include="Threading\Atomic\AtomicEnumTest.cs" />
+    <Compile Include="Threading\Atomic\AtomicIntegerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
