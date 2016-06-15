@@ -438,7 +438,7 @@ namespace Dot.ZooKeeper
         public void UnsubscribeChildListener(IChildListener listener)
         {
             _childListeners.GetOrAdd(listener.GroupPath, new List<IChildListener>())
-                           .TryRemove(listener);
+                           .Remove(listener);
         }
 
         public void SubscribeDataListener(IDataListener listener)
@@ -450,7 +450,7 @@ namespace Dot.ZooKeeper
         public void UnsubscribeDataListener(IDataListener listener)
         {
             _dataListeners.GetOrAdd(listener.ServicePath, new List<IDataListener>())
-                          .TryRemove(listener);
+                          .Remove(listener);
         }
 
         #endregion

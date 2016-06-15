@@ -112,18 +112,6 @@ namespace Dot.Extension
             return result;
         }
 
-        public static bool TryRemove<T>(this List<T> items, T item)
-        {
-            try
-            {
-                return items.Remove(item);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static IEnumerable<T> Disorder<T>(this IEnumerable<T> items)
         {
             return items.OrderBy(item => Guid.NewGuid());

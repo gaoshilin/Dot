@@ -84,8 +84,8 @@ namespace Dot.Dubbo.Registery
         {
             base.Subscribe(groupPath, listener, checkOnStart);
             var emptyListeners = new List<INotifyListener>();
-            _failedSubscribed.GetOrAdd(groupPath, emptyListeners).TryRemove(listener);
-            _failedUnsubscribed.GetOrAdd(groupPath, emptyListeners).TryRemove(listener);
+            _failedSubscribed.GetOrAdd(groupPath, emptyListeners).Remove(listener);
+            _failedUnsubscribed.GetOrAdd(groupPath, emptyListeners).Remove(listener);
 
             try
             {
@@ -103,8 +103,8 @@ namespace Dot.Dubbo.Registery
         {
             base.Unsubscribe(groupPath, listener, checkOnStart);
             var emptyListeners = new List<INotifyListener>();
-            _failedSubscribed.GetOrAdd(groupPath, emptyListeners).TryRemove(listener);
-            _failedUnsubscribed.GetOrAdd(groupPath, emptyListeners).TryRemove(listener);
+            _failedSubscribed.GetOrAdd(groupPath, emptyListeners).Remove(listener);
+            _failedUnsubscribed.GetOrAdd(groupPath, emptyListeners).Remove(listener);
 
             try
             {

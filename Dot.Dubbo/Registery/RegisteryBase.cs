@@ -53,7 +53,7 @@ namespace Dot.Dubbo.Registery
 
             List<INotifyListener> listeners;
             if (_subscribed.TryGetValue(groupPath, out listeners))
-                listeners.TryRemove(listener);
+                listeners.Remove(listener);
         }
         public List<ServiceMetadata> Lookup(string groupPath)
         {
