@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,9 +43,12 @@
   <ItemGroup>
     <Compile Include="Collection\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="Extension\ConcurrentDictionaryExtension.cs" />
+    <Compile Include="Extension\DecimalExtension.cs" />
+    <Compile Include="Extension\DoubleExtension.cs" />
     <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Extension\IEnumerableExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
+    <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\XmlNodeExtension.cs" />
     <Compile Include="Hash\ConsistentHash.cs" />
     <Compile Include="LoadBalance\ConsistentHashLoadBalance.cs">
@@ -68,7 +72,7 @@
     <Compile Include="Threading\Atomic\AtomicEnum.cs" />
     <Compile Include="Threading\Atomic\AtomicInteger.cs" />
     <Compile Include="Threading\Atomic\AtomicReference.cs" />
-    <Compile Include="Util\DecimalUtil.cs" />
+    <Compile Include="Util\Ensure.cs" />
     <Compile Include="Util\IntegerUtil.cs" />
   </ItemGroup>
   <ItemGroup />

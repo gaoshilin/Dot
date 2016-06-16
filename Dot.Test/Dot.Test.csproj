@@ -50,11 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Extension\EnumExtensionTest.cs" />
     <Compile Include="Extension\IEnumerableExtensionTest.cs" />
+    <Compile Include="Support\ProductType.cs" />
     <Compile Include="Threading\Atomic\AtomicBooleanTest.cs" />
     <Compile Include="Threading\Atomic\AtomicEnumTest.cs" />
     <Compile Include="Threading\Atomic\AtomicIntegerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\AssertUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dot\Dot.csproj">
