@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,6 +9,9 @@ using Dot.Util;
 
 namespace Dot.Extension
 {
+    /// <summary>
+    /// 字符串相关
+    /// </summary>
     public static partial class StringExtension
     {
         public static string FormatWith(this string format, params object[] args)
@@ -94,6 +98,9 @@ namespace Dot.Extension
         }
     }
 
+    /// <summary>
+    /// 日期相关
+    /// </summary>
     public static partial class StringExtension
     {
         public static DateTime ToDateTime(this string value, string format = "yyyy-MM-dd HH:mm:ss")
@@ -114,6 +121,9 @@ namespace Dot.Extension
         }
     }
 
+    /// <summary>
+    /// 字典相关
+    /// </summary>
     public static partial class StringExtension
     {
         public static Dictionary<string, string> ToDictionary(this string source, char columnSeparator, char rowSeparator)
@@ -143,7 +153,13 @@ namespace Dot.Extension
 
             return map;
         }
+    }
 
+    /// <summary>
+    /// 枚举数相关
+    /// </summary>
+    public static partial class StringExtension
+    {
         public static IEnumerable<string> Split(this string source, char separator, bool removeEmpty = true)
         {
             var separators = new char[] { separator };
@@ -157,6 +173,19 @@ namespace Dot.Extension
 
             var option = removeEmpty ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None;
             return source.Split(separators, option);
+        }
+    }
+
+    /// <summary>
+    /// IO 相关
+    /// </summary>
+    public static partial class StringExtension
+    {
+        public static Stream OpenStream(this string filePath, FileMode mode)
+        {
+            Ensure.True(File.Exists(filePath), "file", "file which path = {0} not exists".FormatWith(filePath));
+
+            return new FileStream(filePath, mode);
         }
     }
 }
