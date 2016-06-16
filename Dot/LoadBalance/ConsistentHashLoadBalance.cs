@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dot.Hash;
 using Dot.LoadBalance.Weight;
+using Dot.Util;
 
 namespace Dot.LoadBalance
 {
@@ -13,9 +14,7 @@ namespace Dot.LoadBalance
 
         protected override T DoSelect<T>(IWeightCalculator<T> calculator, List<T> items, string key)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException("key", "key is null or empty");
-
+            Ensure.NotNullOrEmpty(key, "key");
             return base.DoSelect(calculator, items, key);
         }
 
