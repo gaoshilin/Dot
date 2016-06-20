@@ -16,16 +16,9 @@ namespace Dot.Extension
             else
             {
                 var parts = value.ToString().Split('.');
-                if (parts.Length == 1)
-                {
-                    return value;
-                }
-                else
-                {
-                    var integerPart = parts[0];
-                    var digitsPart = parts[1];
-                    return Convert.ToDecimal("{0}.{1}".FormatWith(integerPart, digitsPart.Left(digits)));
-                }
+                return parts.Length == 2
+                     ? Convert.ToDecimal("{0}.{1}".FormatWith(parts[0], parts[1].Left(digits)))
+                     : value;
             }
         }
     }
