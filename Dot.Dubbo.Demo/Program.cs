@@ -19,7 +19,7 @@ namespace Dot.Dubbo.Demo
     {
         static string CALC_SERVICE_PROVIDER_PATH = "/dotdubbo/calc/providers";
         static int CALC_SERVICE_MIN_PORT = 7666;
-        static int CALC_SERVICE_MAX_COUNT = 3;
+        static int CALC_SERVICE_MAX_COUNT = 3; 
 
         static string UNARY_SERVICE_PROVIDER_PATH = "/dotdubbo/unary/providers";
         static int UNARY_SERVICE_MIN_PORT = 8666;
