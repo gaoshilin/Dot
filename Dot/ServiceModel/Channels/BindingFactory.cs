@@ -13,8 +13,11 @@ namespace Dot.ServiceModel.Channels
         public static Binding Create<T>(string name = "default")
             where T : Binding
         {
-            var bindingType = typeof(T);
+            return Create(typeof(T), name);
+        }
 
+        public static Binding Create(Type bindingType, string name = "default")
+        {
             if (!BINDING_CONFIG.Settings.ContainsKey(bindingType))
                 throw new Exception("can not create binding type of {0}, because the type have not register.".FormatWith(bindingType.Name));
 
@@ -30,13 +33,15 @@ namespace Dot.ServiceModel.Channels
         private static BasicHttpBinding CreateBasicHttpBinding(string name = "")
         {
             var setting = BINDING_CONFIG.Settings[typeof(BasicHttpBinding)][name];
-            var binding = new BasicHttpBinding();
-            binding.MaxReceivedMessageSize = setting.MaxReceivedMessageSize;
-            binding.MaxBufferSize = setting.MaxBufferSize;
-            binding.MaxBufferPoolSize = setting.MaxBufferPoolSize;
-            binding.SendTimeout = setting.SendTimeout;
-            binding.OpenTimeout = setting.OpenTimeout;
-            return binding;
+
+            return new BasicHttpBinding()
+            {
+                MaxReceivedMessageSize = setting.MaxReceivedMessageSize,
+                MaxBufferSize = setting.MaxBufferSize,
+                MaxBufferPoolSize = setting.MaxBufferPoolSize,
+                SendTimeout = setting.SendTimeout,
+                OpenTimeout = setting.OpenTimeout
+            };
         }
     }
 }

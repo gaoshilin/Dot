@@ -15,6 +15,8 @@ namespace Dot.Sample
             RunRoundRobinLoadBalance();
             RunConsistenHashLoadBalance();
 
+            RunBindingFactorySample();
+
             Console.Read();
         }
     }
