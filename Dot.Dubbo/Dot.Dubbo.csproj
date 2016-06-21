@@ -63,7 +63,6 @@
     <Compile Include="Registery\ZooKeeper\StateListener.cs" />
     <Compile Include="Registery\ZooKeeper\ZooKeeperRegistery.cs" />
     <Compile Include="Rpc\ServiceInvokerBase.cs" />
-    <Compile Include="Util\BindingUtil.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
