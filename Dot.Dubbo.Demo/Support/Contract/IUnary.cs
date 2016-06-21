@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using Dot.Dubbo.Registery;
 using Dot.Dubbo.Registery.ZooKeeper;
 using Dot.Dubbo.Rpc;
 using Dot.LoadBalance;
 using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
+using Dot.ServiceModel.Channels;
 using Dot.ZooKeeper;
 
 namespace Dot.Dubbo.Demo.Support.Contract
@@ -39,6 +41,12 @@ namespace Dot.Dubbo.Demo.Support.Contract
             {
                 return proxy.Client.Negate(x);
             }
+        }
+
+        protected override Binding GetBinding(ServiceMetadata meta)
+        {
+            var bindingType = Type.GetType(meta.Binding);
+            return BindingFactory.Create(bindingType, "unary");
         }
     }
 }

@@ -8,6 +8,7 @@ using Dot.Dubbo.Registery;
 using Dot.LoadBalance;
 using Dot.LoadBalance.Weight;
 using Dot.ServiceModel;
+using Dot.ServiceModel.Channels;
 using Dot.Threading.Atomic;
 
 namespace Dot.Dubbo.Rpc
@@ -42,23 +43,25 @@ namespace Dot.Dubbo.Rpc
             if (meta == null)
                 throw new ServiceMetadataNotFoundException(typeof(TService));
 
-            var bindingType = Type.GetType(meta.Binding);
-            var binding = Activator.CreateInstance(bindingType) as Binding;
+            var binding = this.GetBinding(meta);
             var address = new EndpointAddress(meta.Address);
-            var proxy = new ServiceProxy<TService>(binding, address);
-            return proxy;
+            return new ServiceProxy<TService>(binding, address);
         }
 
         protected virtual IEnumerable<ServiceProxy<TService>> OpenAll()
         {
             foreach (var meta in _metadatas)
             {
-                var bindingType = Type.GetType(meta.Binding);
-                var binding = Activator.CreateInstance(bindingType) as Binding;
+                var binding = this.GetBinding(meta);
                 var address = new EndpointAddress(meta.Address);
-                var proxy = new ServiceProxy<TService>(binding, address);
-                yield return proxy;
+                yield return new ServiceProxy<TService>(binding, address);
             }
+        }
+
+        protected virtual Binding GetBinding(ServiceMetadata meta)
+        {
+            var bindingType = Type.GetType(meta.Binding);
+            return BindingFactory.Create(bindingType);
         }
     }
 }
