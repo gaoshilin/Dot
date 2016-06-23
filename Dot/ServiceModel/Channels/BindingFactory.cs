@@ -30,7 +30,7 @@ namespace Dot.ServiceModel.Channels
             throw new Exception("can not create binding for type of {0}.".FormatWith(bindingType.Name));
         }
 
-        private static BasicHttpBinding CreateBasicHttpBinding(string name = "")
+        private static BasicHttpBinding CreateBasicHttpBinding(string name = "default")
         {
             var setting = BINDING_CONFIG.Settings[typeof(BasicHttpBinding)][name];
 
