@@ -11,7 +11,7 @@ namespace Dot.Sample.Support
     {
     }
 
-    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Singelton)]
+    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.DefaultInterface, LifeCycle = LifeCycle.Transient)]
     public class Csharp : ILanguage 
     {
         public void Dispose()
@@ -20,7 +20,7 @@ namespace Dot.Sample.Support
         }
     }
 
-    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.DefaultInterface, LifeCycle = LifeCycle.Transient)]
+    [Registration(RegisterMode = RegisterMode.Self, LifeCycle = LifeCycle.Singelton)]
     public class Java : ILanguage 
     {
         public void Dispose()
@@ -29,7 +29,7 @@ namespace Dot.Sample.Support
         }
     }
 
-    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Scope)]
+    [Registration(RegisterMode = RegisterMode.Self, LifeCycle = LifeCycle.Scope)]
     public class Php : ILanguage 
     {
         public void Dispose()
@@ -38,7 +38,7 @@ namespace Dot.Sample.Support
         }
     }
 
-    [Registration(RegisterMode = RegisterMode.Self)]
+    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient, Name = "rudy")]
     public class Ruby : ILanguage 
     {
         public void Dispose()

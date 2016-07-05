@@ -37,7 +37,8 @@ namespace Dot.Engine
             {
                 var skipPattern = config != null ? config.AssemblySkipPattern : string.Empty;
                 var restrictPattern = config != null ? config.AssemblyRestrictPattern : string.Empty;
-                var assemblies = AssemblyUtil.GetAssemblies(config.IsWebApplication);
+                var isWebApplication = config != null ? config.IsWebApplication : false;
+                var assemblies = AssemblyUtil.GetAssemblies(isWebApplication);
 
                 if (!string.IsNullOrEmpty(skipPattern) && !string.IsNullOrEmpty(restrictPattern))
                     return assemblies.Where(t => t.FullName.IsNotMatch(skipPattern) && t.FullName.IsMatch(restrictPattern));

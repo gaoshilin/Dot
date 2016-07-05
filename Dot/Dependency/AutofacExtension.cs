@@ -94,7 +94,7 @@ namespace Dot.Dependency
 
         public static void Register(this ContainerBuilder builder, Registration data)
         {
-            builder.RegisterType(data.ServiceType, data.RegisterMode, data.Name);
+            builder.RegisterType(data.ServiceType, data.RegisterMode, data.Name).UseLifeCycle(data.LifeCycle);
         }
     }
 }
