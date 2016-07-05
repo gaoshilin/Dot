@@ -1,0 +1,57 @@
+﻿using System;
+using Autofac;
+using Autofac.Core.Lifetime;
+using Dot.Engine;
+using Dot.Sample.Support;
+
+namespace Dot.Sample
+{
+    partial class Program
+    {
+        static void RunEngineSample()
+        {
+            var engine = new DefaultEngine();
+            //engine.RegisterType<Java>(Dependency.LifeCycle.Singelton, Dependency.RegisterMode.DefaultInterface | Dependency.RegisterMode.Self);
+            //engine.RegisterType<Php>(Dependency.LifeCycle.Scope, Dependency.RegisterMode.Self);
+            //engine.RegisterType<Csharp>(Dependency.LifeCycle.Transient);
+
+            var java1 = engine.Resolve<Java>();
+            var java2 = engine.BeginLifetimeScope().Resolve<Java>();
+            var java3 = engine.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).Resolve<ILanguage>(); // java3 is type of Java，because Java register as default interface.
+            var java4 = engine.BeginLifetimeScope("foo");
+            var java5 = engine.BeginLifetimeScope("bar");
+            Console.WriteLine("java1 equal than java2 = {0}", object.ReferenceEquals(java1, java2));
+            Console.WriteLine("java1 equal than java3 = {0}", object.ReferenceEquals(java1, java3));
+            Console.WriteLine("java1 equal than java4 = {0}", object.ReferenceEquals(java1, java4));
+            Console.WriteLine("java4 equal than java5 = {0}", object.ReferenceEquals(java4, java5));
+
+            //var php1 = engine.Resolve<Php>();
+            //var scope1 = engine.BeginLifetimeScope();
+            //var php2 = scope1.Resolve<Php>();
+            //var php3 = scope1.Resolve<Php>();
+            //var scope2 = engine.BeginLifetimeScope();
+            //var php4 = scope2.Resolve<Php>();
+            //Console.WriteLine("php1 equal than php2 = {0}", object.ReferenceEquals(php1, php2));
+            //Console.WriteLine("php2 equal than php3 = {0}", object.ReferenceEquals(php2, php3));
+            //Console.WriteLine("php3 equal than php4 = {0}", object.ReferenceEquals(php3, php4));
+            //scope1.Dispose(); // reference of php2 and php3 will dispose.
+            //scope2.Dispose(); // reference of php4 will dispose.
+
+            //var csharp1 = engine.Resolve<Csharp>();
+            //var csharp2 = engine.Resolve<Csharp>();
+            //Console.WriteLine("csharp1 equal than csharp2 = {0}", object.ReferenceEquals(csharp1, csharp2));
+            //using (var scope = engine.BeginLifetimeScope())
+            //{
+            //    var csharp3 = scope.Resolve<Csharp>();
+            //    var csharp4 = scope.Resolve<Csharp>();
+            //    Console.WriteLine("csharp3 equal than csharp4 = {0}", object.ReferenceEquals(csharp3, csharp4));
+            //}
+            //using (var scope = engine.BeginLifetimeScope("csharp"))
+            //{
+            //    var csharp5 = scope.Resolve<Csharp>();
+            //    var csharp6 = scope.Resolve<Csharp>();
+            //    Console.WriteLine("csharp5 equal than csharp6 = {0}", object.ReferenceEquals(csharp5, csharp6));
+            //}
+        }
+    }
+}

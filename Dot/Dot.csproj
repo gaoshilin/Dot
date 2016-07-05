@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,7 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collection\Concurrent\ConcurrentHashSet.cs" />
-    <Compile Include="Dependency\IObjectContainer.cs" />
+    <Compile Include="Configuration\DotConfig.cs" />
+    <Compile Include="Dependency\AutofacExtension.cs" />
+    <Compile Include="Engine\DefaultEngine.cs" />
+    <Compile Include="Engine\IEngine.cs" />
+    <Compile Include="Dependency\LifeCycle.cs" />
+    <Compile Include="Dependency\RegisterMode.cs" />
+    <Compile Include="Dependency\Registration.cs" />
+    <Compile Include="Dependency\RegistrationAttribute.cs" />
+    <Compile Include="Engine\EngineBase.cs" />
     <Compile Include="Extension\ConcurrentDictionaryExtension.cs" />
     <Compile Include="Extension\DecimalExtension.cs" />
     <Compile Include="Extension\DoubleExtension.cs" />
@@ -81,6 +93,9 @@
     <Compile Include="Util\AssemblyUtil.cs" />
     <Compile Include="Util\Ensure.cs" />
     <Compile Include="Util\IntegerUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

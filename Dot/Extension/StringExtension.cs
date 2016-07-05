@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using Dot.Util;
 
@@ -186,6 +187,29 @@ namespace Dot.Extension
             Ensure.True(File.Exists(filePath), "file", "file which path = {0} not exists".FormatWith(filePath));
 
             return new FileStream(filePath, mode);
+        }
+    }
+
+    /// <summary>
+    /// 正则表达式相关
+    /// </summary>
+    public static partial class StringExtension
+    {
+        public static bool IsMatch(this string source, string pattern, bool ignoreCase = true)
+        {
+            if (string.IsNullOrEmpty(pattern))
+                return true;
+
+            var options = RegexOptions.Compiled;
+            if (ignoreCase)
+                options |= RegexOptions.IgnoreCase;
+
+            return Regex.IsMatch(source, pattern, options);
+        }
+
+        public static bool IsNotMatch(this string source, string pattern, bool ignoreCase = true)
+        {
+            return !source.IsMatch(pattern, ignoreCase);
         }
     }
 }
