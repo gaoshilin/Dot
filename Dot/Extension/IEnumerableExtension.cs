@@ -225,6 +225,42 @@ namespace Dot.Extension
 
             return string.Join(separator, items.Select(t => selector(t)));
         }
+
+        public static bool AllReferenceNotEqual<T>(this IEnumerable<T> items) where T : class
+        {
+            var itemCount = items.Count();
+
+            for (int i = 0; i < itemCount - 1; i++)
+            {
+                var x = items.ElementAt(i);
+                for (int j = i + 1; j < itemCount; j++)
+                {
+                    var y = items.ElementAt(j);
+                    if (object.ReferenceEquals(x, y))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool AllReferenceEqual<T>(this IEnumerable<T> items) where T : class
+        {
+            var itemCount = items.Count();
+
+            for (int i = 0; i < itemCount - 1; i++)
+            {
+                var x = items.ElementAt(i);
+                for (int j = i + 1; j < itemCount; j++)
+                {
+                    var y = items.ElementAt(j);
+                    if (!object.ReferenceEquals(x, y))
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     public enum IEnumerableSplitStrategy

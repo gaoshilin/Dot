@@ -38,7 +38,7 @@ namespace Dot.Sample.Support
         }
     }
 
-    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient, Name = "rudy")]
+    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient, Name = "ruby")]
     public class Ruby : ILanguage 
     {
         public void Dispose()

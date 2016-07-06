@@ -11,8 +11,8 @@ namespace Dot.Test.Support
     {
     }
 
-    [Registration(Name = "csharp", RegisterMode = RegisterMode.Self | RegisterMode.DefaultInterface, LifeCycle = LifeCycle.Singelton)]
-    public class Csharp : ILanguage 
+    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.DefaultInterface, LifeCycle = LifeCycle.Transient)]
+    public class Csharp : ILanguage
     {
         public void Dispose()
         {
@@ -20,8 +20,8 @@ namespace Dot.Test.Support
         }
     }
 
-    [Registration(Name = "java", RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient)]
-    public class Java : ILanguage 
+    [Registration(RegisterMode = RegisterMode.Self, LifeCycle = LifeCycle.Singelton)]
+    public class Java : ILanguage
     {
         public void Dispose()
         {
@@ -29,8 +29,8 @@ namespace Dot.Test.Support
         }
     }
 
-    [Registration(Name = "php", RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Scope)]
-    public class Php : ILanguage 
+    [Registration(RegisterMode = RegisterMode.Self, LifeCycle = LifeCycle.Scope)]
+    public class Php : ILanguage
     {
         public void Dispose()
         {
@@ -38,8 +38,8 @@ namespace Dot.Test.Support
         }
     }
 
-    [Registration(RegisterMode = RegisterMode.Self)]
-    public class Ruby : ILanguage 
+    [Registration(RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient, Name = "ruby")]
+    public class Ruby : ILanguage
     {
         public void Dispose()
         {

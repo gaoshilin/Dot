@@ -2,7 +2,7 @@
 using Autofac;
 using Dot.Dependency;
 
-namespace Dot.Engine
+namespace Dot.Denpendency.Engine
 {
     public interface IEngine : IContainer
     {

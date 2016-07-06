@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -11,33 +12,42 @@ using Dot.Dependency;
 using Dot.Extension;
 using Dot.Util;
 
-namespace Dot.Engine
+namespace Dot.Denpendency.Engine
 {
     public abstract class EngineBase : IEngine
     {
         protected IContainer _container;
 
-        public EngineBase(DotConfig config = null)
+        public EngineBase() : this(ConfigurationManager.GetSection("dotConfig") as DotConfig)
         {
+        }
+
+        public EngineBase(DotConfig config)
+        {
+            Ensure.NotNull<DotConfig>(config, "config");
+
             var builder = new ContainerBuilder();
-            this.RegisterRegistration(builder, config);
+            this.CustomRegister(builder, config);       // 用户自定义注册，扩展点
+            this.RegistrationRegister(builder, config); // 自动注册 RegistrationAttribute
             _container = builder.Build();
         }
 
-        protected void RegisterRegistration(ContainerBuilder builder, DotConfig config)
+        protected abstract void CustomRegister(ContainerBuilder builder, DotConfig config);
+
+        protected void RegistrationRegister(ContainerBuilder builder, DotConfig config)
         {            
             var assemblies = this.GetAssemblies(config);
-            var datas = Registration.Scan(assemblies).ToArray();
-            this.DoRegisterRegistration(builder, datas);
+            var registrations = Registration.Scan(assemblies).ToArray();
+            this.DoRegistrationRegister(builder, registrations);
         }
 
         protected virtual IEnumerable<Assembly> GetAssemblies(DotConfig config)
         {
             try
             {
-                var skipPattern = config != null ? config.AssemblySkipPattern : string.Empty;
-                var restrictPattern = config != null ? config.AssemblyRestrictPattern : string.Empty;
-                var isWebApplication = config != null ? config.IsWebApplication : false;
+                var skipPattern = config.AssemblySkipPattern;
+                var restrictPattern = config.AssemblyRestrictPattern;
+                var isWebApplication = config.IsWebApplication;
                 var assemblies = AssemblyUtil.GetAssemblies(isWebApplication);
 
                 if (!string.IsNullOrEmpty(skipPattern) && !string.IsNullOrEmpty(restrictPattern))
@@ -57,9 +67,9 @@ namespace Dot.Engine
             }
         }
 
-        protected virtual void DoRegisterRegistration(ContainerBuilder builder, Registration[] datas)
+        protected virtual void DoRegistrationRegister(ContainerBuilder builder, Registration[] registrations)
         {
-            builder.Register(datas);
+            builder.Register(registrations);
         }
 
         #region IEngine members

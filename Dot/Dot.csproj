@@ -49,13 +49,13 @@
     <Compile Include="Collection\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="Configuration\DotConfig.cs" />
     <Compile Include="Dependency\AutofacExtension.cs" />
-    <Compile Include="Engine\DefaultEngine.cs" />
-    <Compile Include="Engine\IEngine.cs" />
+    <Compile Include="Dependency\Engine\DotEngine.cs" />
+    <Compile Include="Dependency\Engine\IEngine.cs" />
     <Compile Include="Dependency\LifeCycle.cs" />
     <Compile Include="Dependency\RegisterMode.cs" />
     <Compile Include="Dependency\Registration.cs" />
     <Compile Include="Dependency\RegistrationAttribute.cs" />
-    <Compile Include="Engine\EngineBase.cs" />
+    <Compile Include="Dependency\Engine\EngineBase.cs" />
     <Compile Include="Extension\ConcurrentDictionaryExtension.cs" />
     <Compile Include="Extension\DecimalExtension.cs" />
     <Compile Include="Extension\DoubleExtension.cs" />

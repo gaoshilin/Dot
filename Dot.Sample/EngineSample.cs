@@ -1,7 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Core.Lifetime;
-using Dot.Engine;
+using Dot.Denpendency.Engine;
 using Dot.Sample.Support;
 
 namespace Dot.Sample
@@ -10,17 +10,18 @@ namespace Dot.Sample
     {
         static void RunEngineSample()
         {
-            var engine = new DefaultEngine();
+            var engine = new DotEngine();
 
             // RegisterMode = RegisterMode.Self, LifeCycle = LifeCycle.Singelton
             var java1 = engine.Resolve<Java>();
             var java2 = engine.BeginLifetimeScope().Resolve<Java>();
-            var java3 = engine.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).Resolve<ILanguage>(); // java3 is type of Java，because Java register as default interface.
-            var java4 = engine.BeginLifetimeScope("foo");
-            var java5 = engine.BeginLifetimeScope("bar");
+            var java3 = engine.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).Resolve<Java>();
+            var java4 = engine.BeginLifetimeScope("foo").Resolve<Java>();
+            var java5 = engine.BeginLifetimeScope("bar").Resolve<Java>();
             Console.WriteLine("java1 equal than java2 = {0}", object.ReferenceEquals(java1, java2));
             Console.WriteLine("java1 equal than java3 = {0}", object.ReferenceEquals(java1, java3));
             Console.WriteLine("java1 equal than java4 = {0}", object.ReferenceEquals(java1, java4));
+            Console.WriteLine("java1 equal than java4 = {0}", object.ReferenceEquals(java1, java5));
             Console.WriteLine("java4 equal than java5 = {0}", object.ReferenceEquals(java4, java5));
             Console.WriteLine("-----------------------");
 
@@ -56,6 +57,11 @@ namespace Dot.Sample
                 var csharp6 = scope.Resolve<Csharp>();
                 Console.WriteLine("csharp5 equal than csharp6 = {0}", object.ReferenceEquals(csharp5, csharp6));
             }
+            Console.WriteLine("-----------------------");
+
+            // RegisterMode = RegisterMode.Self | RegisterMode.Interface, LifeCycle = LifeCycle.Transient, Name = "rudy"
+            var ruby = engine.ResolveNamed("ruby", typeof(Ruby));
+            Console.WriteLine("ruby is typeof {0}", ruby.GetType().FullName);
         }
     }
 }

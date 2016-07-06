@@ -1,7 +1,12 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Autofac;
 using Autofac.Core.Lifetime;
+using Dot.Denpendency.Engine;
 using Dot.Dependency;
+using Dot.Extension;
 using Dot.Test.Support;
+using Dot.Test.Util;
 using Dot.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,47 +16,47 @@ namespace Dot.Test.Dependency
     public class DotEngineTest
     {
         [TestMethod]
-        public void Autofac_Test4()
+        public void Engine_DotEngine_Test()
         {
-            var datas = Registration.Scan(AssemblyUtil.GetAssemblies(false)).ToArray();
-            var builder = new ContainerBuilder();
-            builder.Register(datas);
-            var container = builder.Build();
+            var engine = new DotEngine();
 
-            Assert.IsNotNull(container.Resolve<ILanguage>());
-            Assert.IsInstanceOfType(container.Resolve<ILanguage>(), typeof(Csharp));
+            // Csharp 被注册为 ILanguage 接口的默认实现
+            Assert.IsNotNull(engine.Resolve<ILanguage>());
+            Assert.IsInstanceOfType(engine.Resolve<ILanguage>(), typeof(Csharp));
 
-            var csharp1 = container.ResolveNamed<Csharp>("csharp");
-            var csharp2 = container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).ResolveNamed<Csharp>("csharp");
-            var csharp3 = container.BeginLifetimeScope().ResolveNamed<Csharp>("csharp");
-            Assert.IsTrue(object.ReferenceEquals(csharp1, csharp2));
-            Assert.IsTrue(object.ReferenceEquals(csharp1, csharp3));
+            // 瞬时模式注册，通过任意方式解析得到的实例都具有不同的引用
+            var csharp1 = engine.Resolve<Csharp>();
+            var csharp2 = engine.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).Resolve<Csharp>();
+            var csharp3 = engine.BeginLifetimeScope().Resolve<Csharp>();
+            var csharp4 = engine.BeginLifetimeScope("scope1").Resolve<Csharp>();
+            var csharps = new List<Csharp> { csharp1, csharp2, csharp3, csharp4 };
+            Assert.IsTrue(csharps.AllReferenceNotEqual());
 
-            //var scope1 = container.BeginLifetimeScope();
-            //var php1 = scope1.ResolveNamed<Php>("php");
-            //var php2 = scope1.ResolveNamed<Php>("php");
-            //Assert.ReferenceEquals(php1, php2);
+            // 单例模式注册，通过任意方式解析得到的实例都具有相同的引用
+            var java1 = engine.Resolve<Java>();
+            var java2 = engine.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag).Resolve<Java>();
+            var java3 = engine.BeginLifetimeScope().Resolve<Java>();
+            var scope1 = engine.BeginLifetimeScope("scope1");
+            var java4 = scope1.Resolve<Java>();
+            var java5 = scope1.Resolve<Java>();
+            var javas = new List<Java> { java1, java2, java3, java4, java5 };
+            Assert.IsTrue(javas.AllReferenceEqual());
 
-            //var scope2 = container.BeginLifetimeScope();
-            //var php3 = scope2.ResolveNamed<Php>("php");
-            //var php4 = scope2.ResolveNamed<Php>("php");
-            //Assert.ReferenceEquals(php3, php4);
-            //Assert.AreNotEqual(php1, php3);
+            // 域共享模式注册，相同域解析得到的实例具有相同的引用，不同域解析得到的实例具有不同的引用
+            var phpScope1 = engine.BeginLifetimeScope();
+            var phpScope1_php1 = phpScope1.Resolve<Php>();
+            var phpScope1_php2 = phpScope1.Resolve<Php>();
+            var phpScope2 = engine.BeginLifetimeScope();
+            var phpScope2_php1 = phpScope2.Resolve<Php>();
+            var phpScope2_php2 = phpScope2.Resolve<Php>();
+            Assert.IsTrue(Assert.ReferenceEquals(phpScope2_php1, phpScope2_php2));
+            Assert.IsTrue(Assert.ReferenceEquals(phpScope1_php1, phpScope1_php2));
+            Assert.IsFalse(Assert.ReferenceEquals(phpScope1_php1, phpScope2_php1));
 
-            //using (var scope3 = container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag))
-            //{
-            //    var java1 = scope3.ResolveNamed<Java>("java");
-            //    var java2 = scope3.ResolveNamed<Java>("java");
-            //    var java3 = container.ResolveNamed<Java>("java");
-            //    var java4 = container.ResolveNamed<Java>("java");
-
-            //    Assert.IsFalse(Assert.ReferenceEquals(java1, java2));
-            //    Assert.IsFalse(Assert.ReferenceEquals(java1, java3));
-            //    Assert.IsFalse(Assert.ReferenceEquals(java3, java4));
-            //}
-
-            //var ruby = container.Resolve<Ruby>();
-            //Assert.IsNotNull(ruby);
+            // 以指定 name 注册的类，解析时如果不指定 name，将产生异常
+            AssertUtil.CatchException(() => engine.Resolve<Ruby>());
+            AssertUtil.CatchException(() => engine.ResolveNamed<Ruby>(""));
+            Assert.IsNotNull(engine.ResolveNamed<Ruby>("ruby"));
         }
-    }    
+    }
 }
