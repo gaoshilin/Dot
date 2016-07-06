@@ -2,7 +2,7 @@
 using Dot.Configuration;
 using Dot.Dependency;
 
-namespace Dot.Denpendency.Engine
+namespace Dot.Dependency.Engine
 {
     public class DotEngine : EngineBase
     {

@@ -12,7 +12,7 @@ using Dot.Dependency;
 using Dot.Extension;
 using Dot.Util;
 
-namespace Dot.Denpendency.Engine
+namespace Dot.Dependency.Engine
 {
     public abstract class EngineBase : IEngine
     {
@@ -97,6 +97,13 @@ namespace Dot.Denpendency.Engine
         {
             var builder = new ContainerBuilder();
             builder.Register<T>(creator, mode, name).UseLifeCycle(lifeCycle);
+            builder.Update(_container);
+        }
+
+        public void Register<T>(Func<IComponentContext, IEnumerable<Parameter>, T> creator) where T : class
+        {
+            var builder = new ContainerBuilder();
+            builder.Register<T>(creator);
             builder.Update(_container);
         }
 

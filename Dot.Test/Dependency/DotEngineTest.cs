@@ -2,7 +2,7 @@
 using System.Linq;
 using Autofac;
 using Autofac.Core.Lifetime;
-using Dot.Denpendency.Engine;
+using Dot.Dependency.Engine;
 using Dot.Dependency;
 using Dot.Extension;
 using Dot.Test.Support;
@@ -58,5 +58,48 @@ namespace Dot.Test.Dependency
             AssertUtil.CatchException(() => engine.ResolveNamed<Ruby>(""));
             Assert.IsNotNull(engine.ResolveNamed<Ruby>("ruby"));
         }
+
+        [TestMethod]
+        public void Engine_EngineContext_Test()
+        {
+            Assert.IsNotNull(EngineContext.Current.Resolve<ILanguage>());
+            Assert.IsNotNull(EngineContext.Current.Resolve<Java>());
+            Assert.IsNotNull(EngineContext.Current.Resolve<Csharp>());
+            Assert.IsNotNull(EngineContext.Current.Resolve<Php>());
+
+            EngineContext.Current.Register<ICreditCard>((c, p) =>
+            {
+                var accountId = p.Named<string>("AccountId");
+                if (accountId.StartsWith("9"))
+                    return new GoldCard();
+                else
+                    return new StandardCard();
+            });
+            var creditCard = EngineContext.Current.Resolve<ICreditCard>(new NamedParameter("AccountId", "900"));
+            Assert.IsNotNull(creditCard);
+            Assert.IsInstanceOfType(creditCard, typeof(GoldCard));
+
+            EngineContext.Current.Register<Customer>((c, p) =>
+            {
+                return new Customer()
+                {
+                    CreditCard = EngineContext.Current.Resolve<ICreditCard>(p.First()),
+                    Language = EngineContext.Current.Resolve<ILanguage>()
+                };
+            });
+            var customer = EngineContext.Current.Resolve<Customer>(new NamedParameter("AccountId", "800"));
+            Assert.IsNotNull(customer);
+            Assert.IsInstanceOfType(customer.CreditCard, typeof(StandardCard));
+            Assert.IsInstanceOfType(customer.Language, typeof(Csharp));
+        }
+    }
+
+    public interface ICreditCard { }
+    public class GoldCard : ICreditCard { }
+    public class StandardCard : ICreditCard { }
+    public class Customer
+    {
+        public ICreditCard CreditCard { get; set; }
+        public ILanguage Language { get; set; }
     }
 }

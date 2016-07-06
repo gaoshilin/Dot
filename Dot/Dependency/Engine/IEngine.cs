@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
+using Autofac.Core;
 using Dot.Dependency;
 
-namespace Dot.Denpendency.Engine
+namespace Dot.Dependency.Engine
 {
     public interface IEngine : IContainer
     {
@@ -13,5 +15,7 @@ namespace Dot.Denpendency.Engine
         void RegisterInstance<T>(T instance, RegisterMode mode = RegisterMode.Self, string name = "") where T : class;
 
         void Register<T>(Func<T> creator, LifeCycle lifeCycle = LifeCycle.Transient, RegisterMode mode = RegisterMode.Self, string name = "") where T : class;
+
+        void Register<T>(Func<IComponentContext, IEnumerable<Parameter>, T> creator) where T : class;
     }
 }

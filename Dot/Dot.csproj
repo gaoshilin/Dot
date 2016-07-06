@@ -50,6 +50,7 @@
     <Compile Include="Configuration\DotConfig.cs" />
     <Compile Include="Dependency\AutofacExtension.cs" />
     <Compile Include="Dependency\Engine\DotEngine.cs" />
+    <Compile Include="Dependency\Engine\EngineContext.cs" />
     <Compile Include="Dependency\Engine\IEngine.cs" />
     <Compile Include="Dependency\LifeCycle.cs" />
     <Compile Include="Dependency\RegisterMode.cs" />

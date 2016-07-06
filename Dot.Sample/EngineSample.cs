@@ -1,7 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Core.Lifetime;
-using Dot.Denpendency.Engine;
+using Dot.Dependency.Engine;
 using Dot.Sample.Support;
 
 namespace Dot.Sample
