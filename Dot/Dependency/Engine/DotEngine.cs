@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Dot.Configuration;
 using Dot.Dependency;
+using log4net.Repository.Hierarchy;
 
 namespace Dot.Dependency.Engine
 {

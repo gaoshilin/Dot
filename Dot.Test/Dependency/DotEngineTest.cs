@@ -49,8 +49,8 @@ namespace Dot.Test.Dependency
             var phpScope2 = engine.BeginLifetimeScope();
             var phpScope2_php1 = phpScope2.Resolve<Php>();
             var phpScope2_php2 = phpScope2.Resolve<Php>();
-            Assert.IsTrue(Assert.ReferenceEquals(phpScope2_php1, phpScope2_php2));
             Assert.IsTrue(Assert.ReferenceEquals(phpScope1_php1, phpScope1_php2));
+            Assert.IsTrue(Assert.ReferenceEquals(phpScope2_php1, phpScope2_php2));
             Assert.IsFalse(Assert.ReferenceEquals(phpScope1_php1, phpScope2_php1));
 
             // 以指定 name 注册的类，解析时如果不指定 name，将产生异常

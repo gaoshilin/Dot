@@ -34,6 +34,14 @@
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -78,8 +86,11 @@
     <Compile Include="LoadBalance\RoundRobinLoadBalance.cs" />
     <Compile Include="LoadBalance\Weight\LimitedWeightCalculator.cs" />
     <Compile Include="LoadBalance\Weight\WeightCalculatorBase.cs" />
+    <Compile Include="Logging\LoggerFactory.cs" />
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializing\IJsonSerializer.cs" />
+    <Compile Include="Serializing\JsonNetSerializer.cs" />
     <Compile Include="ServiceModel\Channels\BindingConfig.cs" />
     <Compile Include="ServiceModel\Channels\BindingFactory.cs" />
     <Compile Include="ServiceModel\Channels\BindingSetting.cs" />

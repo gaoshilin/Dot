@@ -39,6 +39,10 @@
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -57,6 +61,8 @@
     <Compile Include="Dependency\DotEngineTest.cs" />
     <Compile Include="Extension\EnumExtensionTest.cs" />
     <Compile Include="Extension\IEnumerableExtensionTest.cs" />
+    <Compile Include="Logging\LoggerFactoryTest.cs" />
+    <Compile Include="Serializing\JsonNetSerializerTest.cs" />
     <Compile Include="Support\ILanguage.cs" />
     <Compile Include="Support\ProductType.cs" />
     <Compile Include="Threading\Atomic\AtomicBooleanTest.cs" />
@@ -73,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
