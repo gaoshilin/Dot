@@ -56,6 +56,9 @@
   <ItemGroup>
     <Compile Include="Collection\Concurrent\ConcurrentHashSet.cs" />
     <Compile Include="Configuration\DotConfig.cs" />
+    <Compile Include="Database\DbConnectionFactoryBase.cs" />
+    <Compile Include="Database\IDbConnectionFactory.cs" />
+    <Compile Include="Database\SQLServer\SQLServerConnectionFactory.cs" />
     <Compile Include="Dependency\AutofacExtension.cs" />
     <Compile Include="Dependency\Engine\DotEngine.cs" />
     <Compile Include="Dependency\Engine\EngineContext.cs" />
