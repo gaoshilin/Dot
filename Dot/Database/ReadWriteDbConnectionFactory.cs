@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using Dot.Extension;
@@ -12,7 +13,6 @@ namespace Dot.Database
     {
         private ConcurrentDictionary<string, DatabaseSetting> _databases;
         private ILoadBalance _loadBalance;
-        private IWeightCalculator<string> _weightCalculator = new EmptyWeightCalculator<string>();
 
         public ReadWriteDbConnectionFactory()
             : this(new RoundRobinLoadBalance())
@@ -35,7 +35,7 @@ namespace Dot.Database
         {
             DatabaseSetting database;
             if (!_databases.TryGetValue(name, out database))
-                throw new Exception("Create db connection fail, because database not exists which keyed [{0}]".FormatWith(name));
+                throw new Exception("Create database connection fail, because database not exists which keyed [{0}]".FormatWith(name));
 
             return this.Connect(database.Write);
         }
@@ -44,9 +44,9 @@ namespace Dot.Database
         {
             DatabaseSetting database;
             if (!_databases.TryGetValue(name, out database))
-                throw new Exception("Create db connection fail, because database not exists which keyed [{0}]".FormatWith(name));
+                throw new Exception("Create database connection fail, because database not exists which keyed [{0}]".FormatWith(name));
 
-            var connectionString = _loadBalance.Select(_weightCalculator, database.Reads);
+            var connectionString = _loadBalance.Select(database.Reads);
             return this.Connect(connectionString);
         }
 
@@ -63,5 +63,14 @@ namespace Dot.Database
         }
 
         protected abstract IDbConnection DoConnect(string connectionString);
+    }
+
+    internal static class ILoadBalanceExtension
+    {
+        internal static T Select<T>(this ILoadBalance loadBalance, List<T> items)
+        {
+            var weightCalculator = new EmptyWeightCalculator<T>();
+            return loadBalance.Select(weightCalculator, items, "database-dispatch");
+        }
     }
 }
