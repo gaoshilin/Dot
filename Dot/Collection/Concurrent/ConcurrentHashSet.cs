@@ -28,6 +28,7 @@ namespace Dot.Collections.Concurrent
         {
             return _set.Keys.GetEnumerator();
         }
+
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _set.Keys.GetEnumerator();
