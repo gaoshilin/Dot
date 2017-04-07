@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Dot.Extension;
+using Dot.Util;
 
 namespace Dot.Hash
 {
@@ -79,22 +80,40 @@ namespace Dot.Hash
     public class ConsistentHash<T>
     {
         private SortedDictionary<int, T> _circle = new SortedDictionary<int, T>();
+        private Dictionary<T, int> _weights = new Dictionary<T, int>();
         private int _replicate = 100;
         private int[] _keys = null;
 
-        public ConsistentHash(IEnumerable<T> nodes, int replicate = 100)
+        public ConsistentHash(List<T> nodes, int replicate = 100)
         {
             _replicate = replicate;
+
             nodes.ForEach(node => this.Add(node, false));
+
             _keys = _circle.Keys.ToArray();
         }
 
-        private void Add(T node, bool updateKeyArray = true)
+        public ConsistentHash(List<T> nodes, List<int> weights, int replicate = 100)
         {
-            for (int i = 0; i < _replicate; i++)
+            Ensure.True(nodes.Count() == weights.Count(), "nodes count must euqal than weights count.");
+
+            for (int i = 0; i < nodes.Count; i++)
             {
-                var hash = BetterHash(node.GetHashCode().ToString() + i);
-                _circle[hash] = node;
+                var node = nodes.ElementAt(i);
+                var weight = weights.ElementAt(i);
+                this.Add(node, false, weight);
+            }
+
+            _keys = _circle.Keys.ToArray();
+        } 
+
+        private void Add(T node, bool updateKeyArray = true, int weight = 1)
+        {
+            _weights.Add(node, weight);
+            for (int i = 0; i < _replicate * weight; i++) // 复制 (_replicate * weight) 个镜像
+            {
+                var hash = BetterHash(node.GetHashCode().ToString() + i);  // 对 (_replicate * weight) 个镜像计算 hash
+                _circle[hash] = node; // 将镜像存入圆环
             }
 
             if (updateKeyArray)
@@ -103,7 +122,7 @@ namespace Dot.Hash
 
         public void Remove(T node)
         {
-            for (int i = 0; i < _replicate; i++)
+            for (int i = 0; i < _replicate * _weights[node]; i++)
             {
                 var hash = BetterHash(node.GetHashCode().ToString() + i);
                 if (_circle.Remove(hash) == false)
@@ -111,6 +130,7 @@ namespace Dot.Hash
             }
 
             _keys = _circle.Keys.ToArray();
+            _weights.Remove(node);
         }
 
         public T GetNode(String key)

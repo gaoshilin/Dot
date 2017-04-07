@@ -24,20 +24,20 @@ namespace Dot.LoadBalance
         {
             var weights = calculator.Calculate(items);
             if (weights.AllEqual())
-                return this.DoSelectEqual(items, key);
+                return this.DoEqualSelect(items, key);
             else
-                return this.DoSelectWeight(items, key, weights);
+                return this.DoWeightedSelect(items, key, weights);
         }
 
         /// <summary>
         /// 均等负载
         /// </summary>
-        protected abstract T DoSelectEqual<T>(List<T> equalItems, string key);
+        protected abstract T DoEqualSelect<T>(List<T> equalItems, string key);
 
         /// <summary>
         /// 加权负载
         /// </summary>
-        protected virtual T DoSelectWeight<T>(List<T> weightItems, string key, List<int> weights)
+        protected virtual T DoWeightedSelect<T>(List<T> weightItems, string key, List<int> weights)
         {
             if (weights.Count != weightItems.Count)
                 throw new ArgumentException(string.Format("count of weights[{0}] must be equal count of weightItems[{1}]", weights.Count, weightItems.Count), "weights");
@@ -45,7 +45,7 @@ namespace Dot.LoadBalance
             var indexes = Enumerable.Range(0, weightItems.Count);
             var equalItems = indexes.SelectRepeat(i => weightItems.ElementAt(i), i => weights.ElementAt(i)).ToList();
 
-            return this.DoSelectEqual(equalItems, key);
+            return this.DoEqualSelect(equalItems, key);
         }
     }
 }

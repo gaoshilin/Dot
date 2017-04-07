@@ -9,7 +9,7 @@ namespace Dot.LoadBalance
     {
         private Random _random = new Random();
 
-        protected override T DoSelectEqual<T>(List<T> equalItems, string key)
+        protected override T DoEqualSelect<T>(List<T> equalItems, string key)
         {
             var index = _random.Next(equalItems.Count);
             return equalItems.ElementAt(index); 

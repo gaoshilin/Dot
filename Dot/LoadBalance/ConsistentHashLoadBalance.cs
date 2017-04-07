@@ -18,13 +18,28 @@ namespace Dot.LoadBalance
             return base.DoSelect(calculator, items, key);
         }
 
-        protected override T DoSelectEqual<T>(List<T> equalItems, string key)
+        protected override T DoEqualSelect<T>(List<T> items, string key)
         {
-            var itemsHash = equalItems.GetHashCode().ToString();
+            var itemsHash = items.GetHashCode().ToString();
             ConsistentHash<object> selector;
             if (!_selectors.TryGetValue(itemsHash, out selector))
             {
-                selector = new ConsistentHash<object>(equalItems.Select(item => item as object));
+                var nodes = items.Select(i => i as object).ToList();
+                selector = new ConsistentHash<object>(nodes);
+                _selectors.TryAdd(itemsHash, selector);
+            }
+
+            return (T)selector.GetNode(key);
+        }
+
+        protected override T DoWeightedSelect<T>(List<T> items, string key, List<int> weights)
+        {
+            var itemsHash = items.GetHashCode().ToString();
+            ConsistentHash<object> selector;
+            if (!_selectors.TryGetValue(itemsHash, out selector))
+            {
+                var nodes = items.Select(i => i as object).ToList();
+                selector = new ConsistentHash<object>(nodes, weights);
                 _selectors.TryAdd(itemsHash, selector);
             }
 

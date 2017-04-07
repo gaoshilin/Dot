@@ -18,7 +18,7 @@ namespace Dot.LoadBalance
             return base.DoSelect(calculator, items, key);
         }
 
-        protected override T DoSelectEqual<T>(List<T> equalItems, string key)
+        protected override T DoEqualSelect<T>(List<T> equalItems, string key)
         {
             var sequence = _sequences.GetOrAdd(key, new AtomicInteger(0));
             return equalItems.ElementAt(sequence.GetThenIncrement() % equalItems.Count);
